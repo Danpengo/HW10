@@ -1,0 +1,96 @@
+{
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "width": 800,
+      "height": 600,
+      "title": "Recorded Natural Disasters in a given year",
+     
+      "data": {
+      "url": "https://raw.githubusercontent.com/Danpengo/HW10/main/Vis1.csv"
+      },
+     
+      
+      
+     
+      "params": [
+           {
+           "name": "Continent_selection",
+           "bind": {
+           "input": "select",
+           "options": [
+           null,
+           "Americas",
+           "Europe",
+           "Africa",
+           "Asia",
+           "Oceania"
+           ],
+           "labels":[
+           "Show All",
+           "Americas",
+           "Europe",
+           "Africa",
+           "Asia",
+           "Oceania"
+           ],
+           "name": "Continent Selection:    "
+           }
+           },
+           {
+                 "name": "Year_selection",
+                 "value": 2020,
+                 "bind": {
+                 "input": "range",
+                 "min": 1900,
+                 "max": 2010,
+                 "step": 1,
+                 "name": "Year Selection: "
+                 }
+                 }
+                
+           ],
+          
+     "transform":[
+           {"filter": "Continent_selection == null || datum.Continent == Continent_selection"},
+           {"filter": "datum.Year == Year_selection"}
+     
+     ],
+     
+     
+      "mark": {"type": "bar", "tooltip": {"content": "data"}},
+      
+      "encoding": {
+       "x":{
+         "aggregate": "count",
+         "field": "*",
+         "type": "quantitative"
+       },
+       "y":{
+         "field": "Region",
+         "type": "nominal",
+         "sort": "-x"
+     
+       },
+     
+     
+     
+       "tooltip": [
+             {"field": "Continent", "type": "nominal"},
+             {"field": "Year", "type": "quantitative"},
+             {"field": "Region", "aggregate": "count", "type": "quantitative"}
+             ]
+      },
+     "layer": [{
+         "mark": "bar"
+       }, {
+         "mark": {
+           "type": "text",
+           "align": "right",
+           "baseline": "middle",
+           "dx": 15
+         },
+         "encoding": {
+           "text": {"field": "Region", "aggregate": "count", "type": "quantitative"}
+         }
+       }]
+     
+     }
